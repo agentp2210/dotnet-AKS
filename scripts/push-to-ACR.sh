@@ -9,8 +9,11 @@ existing_image=$(docker images | grep azurecr | awk '{print $1}')
 if [[ ! -z "$existing_image" ]]
 then
     docker rmi $existing_image
+fi
 
 # Build images if not exist
+cd ../code
+
 existing_images=$(docker images | grep springcommunity | awk '{print $1}')
 
 if [ -z "$existing_images" ]; then
