@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysqlserver
+  labels:
+    app: mysqlserver
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysqlserver
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: mysqlserver
+    spec:
+      nodeSelector:
+        "kubernetes.io/os": linux
+      containers:
+      - name: mysqlserver
+        image: mysql:8
+        imagePullPolicy: IfNotPresent
+        # resources:
+        #   requests:
+        #     cpu: 100m
+        #     memory: 128Mi
+        #   limits:
+        #     cpu: 250m
+        #     memory: 256Mi
+        ports:
+        - containerPort: 3306
+          hostPort: 3306
+          protocol: TCP
+        env:
+          - name: MYSQL_ALLOW_EMPTY_PASSWORD
+            value: "true"
+          - name: MYSQL_DATABASE
+            value: petclinic
+          - name: MYSQL_PASSWORD
+            value: petclinic
+          - name: MYSQL_ROOT_PASSWORD
+          - name: MYSQL_USER
+            value: petclinic
+        volumeMounts:
+          - mountPath: /var/lib/mysql
+            name: mysql-data
+          - mountPath: /etc/mysql/conf.d
+            name: mysql-config
+      restartPolicy: Always
+      volumes:
+        - name: mysql-data
+          persistentVolumeClaim:
+            claimName: mysql-data
+        - name: mysql-config
+          persistentVolumeClaim:
+            claimName: mysql-config
