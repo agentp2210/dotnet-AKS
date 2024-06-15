@@ -11,9 +11,14 @@ sa_name=tfstate$RANDOM
 container_name="tfstate"
 
 # Create backend for terraform
-echo "Creating terraform remote backend"
-az storage account create --name $sa_name --resource-group $rg_name
-echo "Created storage account $(az storage account list --query "[].name" -o tsv)"
+existing_sa=$(az storage account list --query "[].name" -o tsv | grep tfstate)
+if [ -z $existing_sa ]; then
+    echo "Creating terraform remote backend"
+    az storage account create --name $sa_name --resource-group $rg_name
+    echo "Created storage account $(az storage account list --query "[].name" -o tsv)"
+else
+    echo "tfstate storage account already exist with name $existing_sa"
+fi
 
 az storage container create --name $container_name --account-name $sa_name
 echo "Created storage container $(az storage container list --account-name $sa_name --auth-mode login --query "[].name" -o tsv)"

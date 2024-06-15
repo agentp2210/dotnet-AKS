@@ -1,6 +1,5 @@
 1. Create the infra
 ``` shell
-aws configure
 ./scripts/create-infra.sh
 ```
 
