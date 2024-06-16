@@ -17,3 +17,9 @@
 
 4. Update DNS
 Go to https://dashboard.godaddy.com/venture?domainName=anhalan.nl
+Update the A record to the IP address of the LB created by nginx ingress controller
+
+5. Create ingress for the app
+``` shell
+kubectl apply -f ingress.yaml
+```
