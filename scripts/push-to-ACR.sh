@@ -39,3 +39,6 @@ docker push $acr_url/springcommunity/spring-petclinic-customers-service:latest
 
 docker tag springcommunity/spring-petclinic-vets-service:latest $acr_url/springcommunity/spring-petclinic-vets-service:latest
 docker push $acr_url/springcommunity/spring-petclinic-vets-service:latest
+
+docker tag springcommunity/spring-petclinic-visits-service:latest $acr_url/springcommunity/spring-petclinic-visits-service:latest
+docker push $acr_url/springcommunity/spring-petclinic-visits-service:latest
