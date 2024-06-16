@@ -13,32 +13,12 @@ fi
 
 # Build images if not exist
 
-existing_images=$(docker images | grep springcommunity | awk '{print $1}')
+existing_images=$(docker images | grep sampleapp | awk '{print $1}')
 
 if [ -z "$existing_images" ]; then
-    docker pull springcommunity/spring-petclinic-discovery-server
-    docker pull springcommunity/spring-petclinic-config-server 
-    docker pull springcommunity/spring-petclinic-api-gateway
-    docker pull springcommunity/spring-petclinic-customers-service
-    docker pull springcommunity/spring-petclinic-vets-service
-    docker pull springcommunity/spring-petclinic-visits-service
+    docker build sampleapp ../app
 fi
 
 # Push to ACR
-docker tag springcommunity/spring-petclinic-discovery-server:latest $acr_url/springcommunity/spring-petclinic-discovery-server:latest
-docker push $acr_url/springcommunity/spring-petclinic-discovery-server:latest
-
-docker tag springcommunity/spring-petclinic-config-server:latest $acr_url/spring-petclinic-config-server:latest
-docker push $acr_url/springcommunity/spring-petclinic-config-server:latest
-
-docker tag springcommunity/spring-petclinic-api-gateway:latest $acr_url/springcommunity/spring-petclinic-api-gateway:latest
-docker push $acr_url/springcommunity/spring-petclinic-api-gateway:latest
-
-docker tag springcommunity/spring-petclinic-customers-service:latest $acr_url/springcommunity/spring-petclinic-customers-service:latest
-docker push $acr_url/springcommunity/spring-petclinic-customers-service:latest
-
-docker tag springcommunity/spring-petclinic-vets-service:latest $acr_url/springcommunity/spring-petclinic-vets-service:latest
-docker push $acr_url/springcommunity/spring-petclinic-vets-service:latest
-
-docker tag springcommunity/spring-petclinic-visits-service:latest $acr_url/springcommunity/spring-petclinic-visits-service:latest
-docker push $acr_url/springcommunity/spring-petclinic-visits-service:latest
+docker tag sampleapp:latest $acr_url/sampleapp:latest
+docker push $acr_url/sampleapp:latest
