@@ -8,11 +8,9 @@
 ./scripts/push-to-ACR.sh
 ```
 
-*Notes: To view sample Dockerfile go to https://github.com/spring-petclinic/spring-petclinic-microservices/blob/main/docker/Dockerfile and https://github.com/dockersamples/spring-petclinic-docker/blob/main/Dockerfile.multi*
-
 3. Deploy nginx ingress controller
 ``` shell
-helm install nginx-ingress oci://registry-1.docker.io/bitnamicharts/nginx-ingress-controller
+helm install nginx-ingress -n nginx-ingress --create-namespace oci://registry-1.docker.io/bitnamicharts/nginx-ingress-controller
 ```
 
 4. Update DNS
@@ -28,4 +26,16 @@ Update the A record to the IP address of the LB created by nginx ingress control
 cd helm/sampleapp
 acr_url=$(az acr list --query "[].loginServer" -o tsv)
 helm install sampleapp -n sampleapp --create-namespace --set image.repository="$acr_url/sampleapp" .
+```
+
+6. Deploy Argo CD
+``` shell
+helm install -n argocd --create-namespace --set server.ingress.enabled="true" \
+--set server.ingress.ingressClassName="nginx" --set server.ingress.hostname="argocd.anhalan.nl" \
+argo-cd oci://ghcr.io/argoproj/argo-helm/argo-cd
+```
+
+7. Log in to Argo CD
+``` shell
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
 ```
