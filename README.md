@@ -27,5 +27,5 @@ Update the A record to the IP address of the LB created by nginx ingress control
 ``` shell
 cd helm/sampleapp
 acr_url=$(az acr list --query "[].loginServer" -o tsv)
-helm install sampleapp --set image.repository="$acr_url/sampleapp"
+helm install sampleapp -n sampleapp --create-namespace --set image.repository="$acr_url/sampleapp" .
 ```
