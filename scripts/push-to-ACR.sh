@@ -16,7 +16,7 @@ fi
 existing_images=$(docker images | grep sampleapp | awk '{print $1}')
 
 if [ -z "$existing_images" ]; then
-    docker build ../app
+    docker build -t sampleapp ../app
 fi
 
 # Push to ACR
