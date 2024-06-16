@@ -5,18 +5,18 @@
 replicaCount: 1
 
 image:
-  repository: nginx
+  repository: 111122223333.azurecr.io/petclinic
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  tag: "latest"
 
 imagePullSecrets: []
-nameOverride: ""
-fullnameOverride: ""
+nameOverride: "spring-petclinic"
+fullnameOverride: "spring-petclinic"
 
 serviceAccount:
   # Specifies whether a service account should be created
-  create: true
+  create: false
   # Automatically mount a ServiceAccount's API credentials?
   automount: true
   # Annotations to add to the service account
@@ -41,7 +41,7 @@ securityContext: {}
 
 service:
   type: ClusterIP
-  port: 80
+  port: 8080
 
 ingress:
   enabled: false

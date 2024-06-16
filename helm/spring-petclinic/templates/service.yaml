@@ -8,8 +8,11 @@ spec:
   type: {{ .Values.service.type }}
   ports:
     - port: {{ .Values.service.port }}
-      targetPort: http
+      targetPort: {{ .Values.service.port }}
       protocol: TCP
-      name: http
+      name: {{ .Values.service.port | quote }}
+    - name: "8000"
+      port: 8000
+      targetPort: 8000
   selector:
     {{- include "spring-petclinic.selectorLabels" . | nindent 4 }}

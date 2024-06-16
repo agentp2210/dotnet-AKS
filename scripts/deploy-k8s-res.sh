@@ -3,6 +3,9 @@ cd "$(dirname "$0")"
 
 cd ../k8s
 
+# Create nginx ingress controller
+helm install nginx-ingress oci://registry-1.docker.io/bitnamicharts/nginx-ingress-controller
+
 # Create db
 kubectl apply -f mysql-config-persistentvolumeclaim.yaml
 kubectl apply -f mysql-data-persistentvolumeclaim.yaml
