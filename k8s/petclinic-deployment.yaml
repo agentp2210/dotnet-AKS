@@ -20,7 +20,7 @@ spec:
         "kubernetes.io/os": linux
       containers:
       - name: petclinic
-        image: jsgiraldoh/spring-petclinic-docker
+        image: 111122223333.azurecr.io/petclinic
         imagePullPolicy: IfNotPresent
         # resources:
         #   requests:
