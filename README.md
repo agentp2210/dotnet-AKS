@@ -18,7 +18,7 @@ Get the IP address of the ingress controller:
 ``` shell
 kubectl get svc nginx-ingress-nginx-ingress-controller -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
 ```
-Go to https://dashboard.godaddy.com/venture?domainName=anhalan.nl
+Go to https://dcc.godaddy.com/control/portfolio/anhalan.nl/settings?tab=dns&itc=mya_vh_buildwebsite_domain
 Update the A record to the IP address of the LB created by nginx ingress controller
 
 5. Deploy app to k8s
