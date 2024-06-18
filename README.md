@@ -16,7 +16,7 @@ helm install nginx-ingress -n nginx-ingress --create-namespace oci://registry-1.
 4. Update DNS
 Get the IP address of the ingress controller:
 ``` shell
-kubectl get svc nginx-ingress-nginx-ingress-controller -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
+kubectl get svc nginx-ingress-nginx-ingress-controller -n nginx-ingress -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
 ```
 Go to https://dcc.godaddy.com/control/portfolio/anhalan.nl/settings?tab=dns&itc=mya_vh_buildwebsite_domain
 Update the A record to the IP address of the LB created by nginx ingress controller
@@ -31,8 +31,8 @@ helm install sampleapp -n sampleapp --create-namespace --set image.repository="$
 6. Deploy Argo CD
 ``` shell
 helm install -n argocd --create-namespace --set server.ingress.enabled="true" \
---set server.ingress.ingressClassName="nginx" --set server.ingress.hostname="argocd.anhalan.nl" \
-argo-cd oci://ghcr.io/argoproj/argo-helm/argo-cd
+--set server.ingress.ingressClassName="nginx" --set global.domain="argocd.anhalan.nl" \
+--set configs.params.server\.insecure argo-cd oci://ghcr.io/argoproj/argo-helm/argo-cd
 ```
 
 7. Log in to Argo CD
