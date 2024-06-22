@@ -21,6 +21,7 @@ module "vnet_aks" {
 }
 
 module "keyvault" {
+  source = "./modules/key-vault"
   name = "${var.keyvault_name}${random_integer.ri.result}"
   location = var.location
   resource_group_name = var.resource_group_name
