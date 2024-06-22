@@ -1,5 +1,6 @@
 #!/bin/bash
 cd "$(dirname "$0")"
+set -e
 
 # read -p "Service principal ID: " sp_id
 # read -p "Service principal secret: " sp_secret

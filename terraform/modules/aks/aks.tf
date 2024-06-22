@@ -31,7 +31,7 @@ resource "azurerm_kubernetes_cluster" "k8s" {
   }
 
   key_vault_secrets_provider {
-    secret_rotation_interval  = 2m
+    secret_rotation_interval = "2m"
   }
 
   oms_agent {
