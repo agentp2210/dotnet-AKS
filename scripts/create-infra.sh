@@ -19,6 +19,7 @@ if [ -z $existing_sa ]; then
     echo "Created storage account $(az storage account list --query "[].name" -o tsv)"
 else
     echo "tfstate storage account already exist with name $existing_sa"
+    sa_name=$existing_sa
 fi
 
 if [ -z $(az storage container list --account-name $sa_name) ]
