@@ -21,9 +21,17 @@ resource "azurerm_kubernetes_cluster" "k8s" {
     orchestrator_version = var.kubernetes_version
   }
 
-  service_principal {
-    client_id = var.client_id
-    client_secret = var.client_secret
+  # service_principal {
+  #   client_id = var.client_id
+  #   client_secret = var.client_secret
+  # }
+
+  identity {
+    type = "SystemAssigned"
+  }
+
+  key_vault_secrets_provider {
+    secret_rotation_interval  = 2m
   }
 
   oms_agent {

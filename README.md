@@ -30,12 +30,18 @@ helm install sampleapp -n sampleapp --create-namespace --set image.repository="$
 
 6. Deploy Argo CD
 ``` shell
-helm install -n argocd --create-namespace --set server.ingress.enabled="true" \
+helm upgrade --install -n argocd --create-namespace --set server.ingress.enabled="true" \
 --set server.ingress.ingressClassName="nginx" --set global.domain="argocd.anhalan.nl" \
---set configs.params.server\.insecure argo-cd oci://ghcr.io/argoproj/argo-helm/argo-cd
+--set configs.params."server\.insecure"=true argo-cd oci://ghcr.io/argoproj/argo-helm/argo-cd
 ```
 
 7. Log in to Argo CD
 ``` shell
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+```
+
+8. Create ArgoCD app
+``` shell
+argocd login argocd.anhalan.nl --insecure --username admin --password "$(kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)"
+argocd app create sampleapp --repo git@github.com:agentp2210/dotnet-AKS.git --path "helm/sampleapp" --dest-namespace sampleapp --dest-server https://kubernetes.default.svc --helm-set image.repository="$acr_url/sampleapp"
 ```
