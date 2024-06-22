@@ -22,7 +22,7 @@ else
     sa_name=$existing_sa
 fi
 
-if [ -z $(az storage container list --account-name $sa_name) ]
+if [ -z $(az storage container list --account-name $sa_name) ]; then
     az storage container create --name $container_name --account-name $sa_name
     echo "Created storage container $(az storage container list --account-name $sa_name --auth-mode login --query "[].name" -o tsv)"
 fi
