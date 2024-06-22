@@ -49,6 +49,6 @@ output "node_resource_group_id" {
 }
 
 output "object_id" {
-  value     = azurerm_kubernetes_cluster.k8s.kubelet_identity.object_id
+  value     = azurerm_kubernetes_cluster.k8s.kubelet_identity[0].object_id
   sensitive = true
 }
