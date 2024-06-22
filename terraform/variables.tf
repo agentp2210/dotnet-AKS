@@ -82,3 +82,7 @@ variable "application_type" {
   type = string
   description = "Application Insights Type"
 }
+
+variable "keyvault_name" {
+  type = string
+}

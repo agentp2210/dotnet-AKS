@@ -20,6 +20,12 @@ module "vnet_aks" {
   environment = var.environment
 }
 
+module "keyvault" {
+  name = "${var.keyvault_name}${random_integer.ri.result}"
+  location = var.location
+  resource_group_name = var.resource_group_name
+}
+
 module "aks" {
   source                     = "./modules/aks"
   name                       = var.aks_name

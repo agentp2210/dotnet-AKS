@@ -24,3 +24,6 @@ environment = "dev"
 # App Insights
 app_insights_name = "devopsjourney"
 application_type  = "web"
+
+# Key vault
+keyvault_name = "AKSKeyVault"
