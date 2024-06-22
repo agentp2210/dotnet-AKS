@@ -21,8 +21,10 @@ else
     echo "tfstate storage account already exist with name $existing_sa"
 fi
 
-az storage container create --name $container_name --account-name $sa_name
-echo "Created storage container $(az storage container list --account-name $sa_name --auth-mode login --query "[].name" -o tsv)"
+if [ -z $(az storage container list --account-name $sa_name) ]
+    az storage container create --name $container_name --account-name $sa_name
+    echo "Created storage container $(az storage container list --account-name $sa_name --auth-mode login --query "[].name" -o tsv)"
+fi
 
 # Init with remote backend
 cd ../terraform
