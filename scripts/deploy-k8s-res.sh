@@ -1,15 +1,21 @@
 #!/bin/bash
+start=`date +%s`
 cd "$(dirname "$0")"
 
-cd ../k8s
-
 # Create nginx ingress controller
+echo "Installing nginx ingress controller"
 helm install nginx-ingress -n nginx-ingress --create-namespace oci://registry-1.docker.io/bitnamicharts/nginx-ingress-controller
 
-# Create k8s resources
+# Deploy the app
 acr_url=$(az acr list --query "[].loginServer" -o tsv)
 
-sed -e "s/k8sexamplesacr.azurecr.io/$acr_url/g" "deployment.yaml" | kubectl apply -f -
-kubectl apply -f service.yaml
+cd ../helm/sampleapp
+acr_url=$(az acr list --query "[].loginServer" -o tsv)
+helm install sampleapp -n sampleapp --create-namespace --set image.repository="$acr_url/sampleapp" .
 
-echo "IP address of ingress controller: $(kubectl get svc nginx-ingress-nginx-ingress-controller -o jsonpath='{.status.loadBalancer.ingress[0].ip}')"
+echo "IP address of ingress controller: $(kubectl -n nginx-ingress get svc nginx-ingress-nginx-ingress-controller -o jsonpath='{.status.loadBalancer.ingress[0].ip}')"
+echo "Please update the DNS record accordingly"
+
+end=`date +%s`
+runtime=$((end-start))
+echo "Runtime: $runtime"
