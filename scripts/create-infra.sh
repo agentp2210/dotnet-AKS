@@ -1,6 +1,5 @@
 #!/bin/bash
 cd "$(dirname "$0")"
-set -e
 
 # read -p "Service principal ID: " sp_id
 # read -p "Service principal secret: " sp_secret
@@ -22,7 +21,8 @@ else
     sa_name=$existing_sa
 fi
 
-if [ -z $(az storage container list --account-name $sa_name) ]; then
+existing_container=$(az storage container list --account-name $sa_name)
+if [ -z $existing_container ]; then
     az storage container create --name $container_name --account-name $sa_name
     echo "Created storage container $(az storage container list --account-name $sa_name --auth-mode login --query "[].name" -o tsv)"
 fi
