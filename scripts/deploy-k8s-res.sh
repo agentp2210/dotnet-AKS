@@ -13,6 +13,8 @@ cd ../helm/sampleapp
 acr_url=$(az acr list --query "[].loginServer" -o tsv)
 helm install sampleapp -n sampleapp --create-namespace --set image.repository="$acr_url/sampleapp" .
 
+sleep 20
+
 echo "IP address of ingress controller: $(kubectl -n nginx-ingress get svc nginx-ingress-nginx-ingress-controller -o jsonpath='{.status.loadBalancer.ingress[0].ip}')"
 echo "Please update the DNS record accordingly"
 
