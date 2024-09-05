@@ -22,7 +22,7 @@ else
 fi
 
 existing_container=$(az storage container list --account-name $sa_name)
-if [ -z $existing_container ]; then
+if [ ${#existing_container[@]} -eq 0 ]; then
     az storage container create --name $container_name --account-name $sa_name
     echo "Created storage container $(az storage container list --account-name $sa_name --auth-mode login --query "[].name" -o tsv)"
 fi
