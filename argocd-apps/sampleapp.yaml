@@ -2,14 +2,13 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: sampleapp
-  namespace: argocd
+  namespace: sampleapp
   # Add this finalizer ONLY if you want these to cascade delete.
   finalizers:
     # The default behaviour is foreground cascading deletion
     - resources-finalizer.argocd.argoproj.io
     # Alternatively, you can use background cascading deletion
     # - resources-finalizer.argocd.argoproj.io/background
-  # Add labels to your application object.
   labels:
     name: guestbook
 spec:
@@ -17,10 +16,9 @@ spec:
   source:
     repoURL: https://github.com/agentp2210/java-AKS.git  # Can point to either a Helm chart repo or a git repo.
     targetRevision: HEAD  # For Helm, this refers to the chart version.
-    path: helm/sampleapp  # This has no meaning for Helm charts pulled directly from a Helm repo instead of git.
+    path: helm/sampleapp
 
     # helm specific config
-    chart: sampleapp  # Set this when pulling directly from a Helm repo. DO NOT set for git-hosted Helm charts.
     helm:
       passCredentials: false # If true then adds --pass-credentials to Helm commands to pass credentials to all domains
       # Extra parameters to set (same as setting through values.yaml, but these take precedence)
@@ -41,19 +39,12 @@ spec:
           path: /
           hosts:
             - argocd.anhalan.nl
-
-      # Skip custom resource definition installation if chart contains custom resource definitions. Defaults to false
-      skipCrds: false
-
-      # Optional Helm version to template with. If omitted it will fall back to look at the 'apiVersion' in Chart.yaml
-      # and decide which Helm binary to use automatically. This field can be either 'v2' or 'v3'.
-      version: v2
-
-  # Destination cluster and namespace to deploy the application
   destination:
-    # cluster API URL
     server: https://kubernetes.default.svc
-    # or cluster name
-    # name: in-cluster
-    # The namespace will only be set for namespace-scoped resources that have not set a value for .metadata.namespace
     namespace: sampleapp
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

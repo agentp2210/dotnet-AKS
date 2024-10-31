@@ -29,3 +29,7 @@ argocd app create argo-cd --repo https://argoproj.github.io/argo-helm --helm-cha
 
 # Output
 echo "Argo CD password: $argocd_password"
+
+# Add repo
+# https://argo-cd.readthedocs.io/en/stable/user-guide/private-repositories/
+argocd repo add https://github.com/agentp2210/dotnet-AKS.git --username 'agentp2210' --password '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'

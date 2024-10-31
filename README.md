@@ -1,3 +1,10 @@
+#Prerequisites#
+- Terraform
+- kubectl
+- Helm
+- ArgoCD CLI
+
+#Steps:#
 1. Create the infra
 ``` shell
 ./scripts/create-infra.sh
