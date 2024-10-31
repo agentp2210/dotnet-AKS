@@ -46,9 +46,10 @@ output "node_resource_group_id" {
   value     = module.aks.node_resource_group_id
 }
 
-output "object_id" {
-  value     = module.aks.object_id
-}
+# This is only available when using managed identity
+# output "object_id" {
+#   value     = module.aks.object_id
+# }
 
 output "instrumentation_key" {
   value = module.appinsights.instrumentation_key

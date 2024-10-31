@@ -48,7 +48,8 @@ output "node_resource_group_id" {
   sensitive = true
 }
 
-output "object_id" {
-  value     = azurerm_kubernetes_cluster.k8s.kubelet_identity[0].object_id
-  sensitive = true
-}
+# This is only available when using managed identity
+# output "object_id" {
+#   value     = azurerm_kubernetes_cluster.k8s.kubelet_identity[0].object_id
+#   sensitive = true
+# }
