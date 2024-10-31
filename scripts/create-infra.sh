@@ -1,8 +1,8 @@
 #!/bin/bash
 cd "$(dirname "$0")"
 
-# read -p "Service principal ID: " sp_id
-# read -p "Service principal secret: " sp_secret
+read -p "Service principal ID: " sp_id
+read -p "Service principal secret: " sp_secret
 
 rg_name=$(az group list --query "[].name" -o tsv)
 rg_id=$(az group list --query "[].id" -o tsv)
@@ -39,7 +39,8 @@ terraform init \
 
 # Create the infra
 terraform apply -var="resource_group_name=$rg_name" -var="rg_id=$rg_id" -var="location=$location" \
-    -var-file="./vars/dev.tfvars" --auto-approve
+-var="client_id=$sp_id" -var="client_secret=$sp_secret" \
+-var-file="./vars/dev.tfvars" --auto-approve
 
 cluster_name=$(az aks list --query "[].name" -o tsv)
 az aks get-credentials --name $cluster_name --resource-group $rg_name --overwrite-existing
