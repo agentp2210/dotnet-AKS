@@ -8,9 +8,10 @@ helm install nginx-ingress -n nginx-ingress --create-namespace oci://registry-1.
 
 # Deploy the app
 acr_url=$(az acr list --query "[].loginServer" -o tsv)
+acr=$(az acr list --query "[].name" -o tsv)
+az acr login --name $acr
 
 cd ../helm/sampleapp
-acr_url=$(az acr list --query "[].loginServer" -o tsv)
 helm install sampleapp -n sampleapp --create-namespace --set image.repository="$acr_url/sampleapp" .
 
 sleep 20
