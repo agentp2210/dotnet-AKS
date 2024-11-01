@@ -33,7 +33,7 @@ kubectl get svc nginx-ingress-nginx-ingress-controller -n nginx-ingress -o jsonp
 Go to https://dcc.godaddy.com/control/portfolio/anhalan.nl/settings?tab=dns&itc=mya_vh_buildwebsite_domain
 Update the A record to the IP address of the LB created by nginx ingress controller
 
-6. Deploy Argo CD and add the repo
+5. Deploy Argo CD and add the repo
 ``` shell
 ./scripts/argocd.sh
 ```

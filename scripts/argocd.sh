@@ -1,6 +1,12 @@
 #!/bin/bash
 cd "$(dirname "$0")"
 
+if [ -z $1 ]; then
+    read -p "GitHub Token: " token
+else
+    token=$1
+fi
+
 # Deploy Argo CD
 echo "Installing Argo CD"
 argocd_host="argocd.anhalan.nl"
@@ -32,4 +38,4 @@ echo "Argo CD password: $argocd_password"
 
 # Add repo
 # https://argo-cd.readthedocs.io/en/stable/user-guide/private-repositories/
-argocd repo add https://github.com/agentp2210/dotnet-AKS.git --username 'agentp2210' --password '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'
+argocd repo add https://github.com/agentp2210/dotnet-AKS.git --name dotnet-AKS --username 'agentp2210' --password $token
