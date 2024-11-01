@@ -20,9 +20,9 @@ az login -u '' -p ''
 ./scripts/push-to-ACR.sh
 ```
 
-3. Deploy nginx ingress controller
+3. Deploy nginx ingress controller and the app
 ``` shell
-helm install nginx-ingress -n nginx-ingress --create-namespace oci://registry-1.docker.io/bitnamicharts/nginx-ingress-controller
+./scripts/deploy-k8s-res.sh
 ```
 
 4. Update DNS
@@ -33,18 +33,9 @@ kubectl get svc nginx-ingress-nginx-ingress-controller -n nginx-ingress -o jsonp
 Go to https://dcc.godaddy.com/control/portfolio/anhalan.nl/settings?tab=dns&itc=mya_vh_buildwebsite_domain
 Update the A record to the IP address of the LB created by nginx ingress controller
 
-5. Deploy app to k8s
+6. Deploy Argo CD and add the repo
 ``` shell
-cd helm/sampleapp
-acr_url=$(az acr list --query "[].loginServer" -o tsv)
-helm install sampleapp -n sampleapp --create-namespace --set image.repository="$acr_url/sampleapp" .
-```
-
-6. Deploy Argo CD
-``` shell
-helm upgrade --install -n argocd --create-namespace --set server.ingress.enabled="true" \
---set server.ingress.ingressClassName="nginx" --set global.domain="argocd.anhalan.nl" \
---set configs.params."server\.insecure"=true argo-cd oci://ghcr.io/argoproj/argo-helm/argo-cd
+./scripts/argocd.sh
 ```
 
 7. Log in to Argo CD

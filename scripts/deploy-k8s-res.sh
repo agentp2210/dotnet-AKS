@@ -4,7 +4,7 @@ cd "$(dirname "$0")"
 
 # Create nginx ingress controller
 echo "Installing nginx ingress controller"
-helm install nginx-ingress -n nginx-ingress --create-namespace oci://registry-1.docker.io/bitnamicharts/nginx-ingress-controller
+helm upgrade --install nginx-ingress -n nginx-ingress --create-namespace oci://registry-1.docker.io/bitnamicharts/nginx-ingress-controller
 
 # Deploy the app
 acr_url=$(az acr list --query "[].loginServer" -o tsv)
@@ -12,7 +12,7 @@ acr=$(az acr list --query "[].name" -o tsv)
 az acr login --name $acr
 
 cd ../helm/sampleapp
-helm install sampleapp -n sampleapp --create-namespace --set image.repository="$acr_url/sampleapp" .
+helm upgrade --install sampleapp -n sampleapp --create-namespace --set image.repository="$acr_url/sampleapp" .
 
 sleep 20
 
