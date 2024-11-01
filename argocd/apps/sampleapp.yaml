@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: sampleapp
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/agentp2210/dotnet-AKS.git  # Can point to either a Helm chart repo or a git repo.
+    targetRevision: HEAD  # For Helm, this refers to the chart version.
+    path: helm/sampleapp
+    helm:
+      releaseName: sampleapp
+      valueFiles:
+      - values.yaml
+      ignoreMissingValueFiles: false
+
+      values: |
+        image:
+          repository: k8sexamplesacr.azurecr.io/sampleapp
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: sampleapp
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
