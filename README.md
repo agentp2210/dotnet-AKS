@@ -1,12 +1,17 @@
-#Prerequisites#
+# Prerequisites
+
+- az cli
+- docker
 - Terraform
 - kubectl
 - Helm
 - ArgoCD CLI
 
-#Steps:#
-1. Create the infra
+# Steps:
+
+1. Log in to Azure and create the infra
 ``` shell
+az login -u '' -p ''
 ./scripts/create-infra.sh
 ```
 

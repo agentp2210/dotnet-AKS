@@ -74,12 +74,12 @@ variable "environment" {
 
 
 variable "app_insights_name" {
-  type = string
+  type        = string
   description = "Application Insights Name"
 }
 
 variable "application_type" {
-  type = string
+  type        = string
   description = "Application Insights Type"
 }
 

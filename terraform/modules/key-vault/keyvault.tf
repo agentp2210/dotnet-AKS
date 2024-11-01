@@ -17,14 +17,31 @@ resource "azurerm_key_vault" "example" {
 
     key_permissions = [
       "Get",
+      "Create",
+      "Delete",
+      "Encrypt",
+      "Decrypt",
+      "List",
+      "Purge",
     ]
 
     secret_permissions = [
       "Get",
+      "List",
+      "Delete",
+      "Purge",
+      "Set",
+      "Recover",
+      "Restore",
     ]
 
     storage_permissions = [
       "Get",
+      "Set",
+      "List",
+      "Delete",
+      "Purge",
+      "Update",
     ]
   }
 }

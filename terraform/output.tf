@@ -1,5 +1,5 @@
 output "kube_config" {
-  value = module.aks.kube_config
+  value     = module.aks.kube_config
   sensitive = true
 }
 
@@ -39,11 +39,11 @@ output "host" {
 }
 
 output "node_resource_group" {
-  value     = module.aks.node_resource_group
+  value = module.aks.node_resource_group
 }
 
 output "node_resource_group_id" {
-  value     = module.aks.node_resource_group_id
+  value = module.aks.node_resource_group_id
 }
 
 # This is only available when using managed identity
@@ -52,6 +52,10 @@ output "node_resource_group_id" {
 # }
 
 output "instrumentation_key" {
-  value = module.appinsights.instrumentation_key
+  value     = module.appinsights.instrumentation_key
   sensitive = true
+}
+
+output "keyvault_name" {
+  value = module.keyvault.keyvault_name
 }

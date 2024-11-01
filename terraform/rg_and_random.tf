@@ -9,9 +9,9 @@ resource "azurerm_resource_group" "rg" {
 }
 
 resource "random_string" "tfstate" {
-  length = 5
+  length  = 5
   special = false
-  upper = false
+  upper   = false
 }
 
 resource "random_integer" "ri" {

@@ -4,7 +4,7 @@ module "loganalytics" {
   location                     = azurerm_resource_group.rg.location
   resource_group_name          = azurerm_resource_group.rg.name
   log_analytics_workspace_sku  = "PerGB2018"
-  environment = var.environment
+  environment                  = var.environment
 }
 
 module "vnet_aks" {
@@ -17,13 +17,13 @@ module "vnet_aks" {
   aks_subnet_address_name     = var.aks_subnet_address_name
   appgw_subnet_address_prefix = var.appgw_subnet_address_prefix
   appgw_subnet_address_name   = var.appgw_subnet_address_name
-  environment = var.environment
+  environment                 = var.environment
 }
 
 module "keyvault" {
-  source = "./modules/key-vault"
-  name = "${var.keyvault_name}${random_integer.ri.result}"
-  location = var.location
+  source              = "./modules/key-vault"
+  name                = "${var.keyvault_name}${random_integer.ri.result}"
+  location            = var.location
   resource_group_name = var.resource_group_name
 }
 
@@ -45,18 +45,18 @@ module "aks" {
 }
 
 module "acr" {
-  source   = "./modules/acr"
-  name     = "${var.acr_name}${random_integer.ri.result}"
-  location = var.location
+  source              = "./modules/acr"
+  name                = "${var.acr_name}${random_integer.ri.result}"
+  location            = var.location
   resource_group_name = var.resource_group_name
-  environment = var.environment
+  environment         = var.environment
 }
 
 module "appinsights" {
-  source           = "./modules/appinsights"
-  name             = var.app_insights_name
-  resource_group_name        = var.resource_group_name
-  location         = var.location
-  environment      = var.environment
-  application_type = var.application_type
+  source              = "./modules/appinsights"
+  name                = var.app_insights_name
+  resource_group_name = var.resource_group_name
+  location            = var.location
+  environment         = var.environment
+  application_type    = var.application_type
 }

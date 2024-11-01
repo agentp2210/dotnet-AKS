@@ -7,7 +7,7 @@ read -p "Service principal secret: " sp_secret
 rg_name=$(az group list --query "[].name" -o tsv)
 rg_id=$(az group list --query "[].id" -o tsv)
 location=$(az group list --query "[].location" -o tsv)
-sa_name=tfstate$RANDOM
+sa_name=tfstate$RANDOM$(date +'%m%d%y')
 container_name="tfstate"
 
 # Create backend for terraform
@@ -48,8 +48,9 @@ az aks get-credentials --name $cluster_name --resource-group $rg_name --overwrit
 kubectl get node
 
 # Assign permission to the system-managed identity of the AKS node pool to access the keyvault
-echo "assigning permission for AKS nodepool to access the key vault"
-IDENTITY_OBJECT_ID=$(az aks show --resource-group $rg_name --name $cluster_name --query addonProfiles.azureKeyvaultSecretsProvider.identity.objectId -o tsv)
-keyvault_name=$(az keyvault list --query "[].name" -o tsv)
+# This only works when AKS uses managed identity
+# echo "assigning permission for AKS nodepool to access the key vault"
+# IDENTITY_OBJECT_ID=$(az aks show --resource-group $rg_name --name $cluster_name --query addonProfiles.azureKeyvaultSecretsProvider.identity.objectId -o tsv)
+# keyvault_name=$(az keyvault list --query "[].name" -o tsv)
 
-az keyvault set-policy --name $keyvault_name --key-permissions get --object-id $IDENTITY_OBJECT_ID
+# az keyvault set-policy --name $keyvault_name --key-permissions get --object-id $IDENTITY_OBJECT_ID
