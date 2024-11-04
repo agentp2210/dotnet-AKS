@@ -1,6 +1,9 @@
 #!/bin/bash
 cd "$(dirname "$0")"
 
+# Exit script immediately if any command exits with a non-zero exit code
+set -e
+
 read -p "Service principal ID: " sp_id
 read -p "Service principal secret: " sp_secret
 
@@ -14,7 +17,7 @@ container_name="tfstate"
 existing_sa=$(az storage account list --query "[].name" -o tsv | grep tfstate)
 if [ -z $existing_sa ]; then
     echo "Creating terraform remote backend"
-    az storage account create --name $sa_name --resource-group $rg_name
+    az storage account create --name $sa_name --resource-group $rg_name 1>/dev/null
     echo "Created storage account $(az storage account list --query "[].name" -o tsv)"
 else
     echo "tfstate storage account already exist with name $existing_sa"
