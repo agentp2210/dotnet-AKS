@@ -8,10 +8,30 @@ cd "$(dirname "$0")"
 #     token=$1
 # fi
 
+# Deploy Argo CD
+echo "Installing Argo CD"
+argocd_host="argocd.anhalan.nl"
+helm upgrade --install -n argocd --create-namespace --set server.ingress.enabled="true" \
+--set server.ingress.ingressClassName="nginx" --set global.domain=$argocd_host \
+--set configs.params."server\.insecure"=true argo-cd oci://ghcr.io/argoproj/argo-helm/argo-cd
+
+sleep 10
+
+# Check if argo cd is ready
+status_code=$(curl -I $argocd_host 2>/dev/null | head -n 1 | cut -d$' ' -f2)
+if [ $status_code != 200 ]; then
+    sleep 30
+fi
+
+latest_status_code=$(curl -I $argocd_host 2>/dev/null | head -n 1 | cut -d$' ' -f2)
+echo "Argo CD status code: $latest_status_code"
+
+argocd_password=$(kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)
+echo "Argo CD password: $argocd_password"
+
 # Create ArgoCD resources declaratively
 kubectl apply -f ../argocd/secrets/private-repo-creds.yaml
 kubectl apply -f ../argocd/repos/dotnet-AKS.yaml
-kubectl apply -f ../argocd/argocd-apps.yaml
 
 acr_url=$(az acr list --query "[].loginServer" -o tsv)
 cd ../argocd/apps
