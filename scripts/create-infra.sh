@@ -2,7 +2,7 @@
 cd "$(dirname "$0")"
 
 # Exit script immediately if any command exits with a non-zero exit code
-set -e
+# set -e
 
 read -p "Service principal ID: " sp_id
 read -p "Service principal secret: " sp_secret
