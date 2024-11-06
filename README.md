@@ -20,7 +20,7 @@ az login -u '' -p ''
 ./scripts/push-to-ACR.sh
 ```
 
-3. Deploy nginx ingress controller and Argo CD
+3. Deploy nginx ingress controller
 ``` shell
 ./scripts/deploy-k8s-res.sh
 ```
@@ -33,7 +33,7 @@ kubectl get svc nginx-ingress-nginx-ingress-controller -n nginx-ingress -o jsonp
 Go to https://dcc.godaddy.com/control/portfolio/anhalan.nl/settings?tab=dns&itc=mya_vh_buildwebsite_domain
 Update the A record to the IP address of the LB created by nginx ingress controller
 
-5. Deploy Argo CD resources (repo, repo-creds, apps)
+5. Deploy Argo CD and it's resources (repo, repo-creds, apps)
 ``` shell
 ./scripts/argocd.sh
 ```
@@ -41,4 +41,9 @@ Update the A record to the IP address of the LB created by nginx ingress control
 6. Log in to Argo CD and verify if the app is created
 ``` shell
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+```
+
+7. Deploy monitoring stack (Grafana, Prometheus)
+``` shell
+./scripts/monitoring.sh
 ```

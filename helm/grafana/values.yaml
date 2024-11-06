@@ -277,7 +277,7 @@ ingress:
   enabled: false
   # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
   # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
-  # ingressClassName: nginx
+  ingressClassName: nginx
   # Values can be templated
   annotations: {}
     # kubernetes.io/ingress.class: nginx
@@ -625,6 +625,10 @@ datasources:
       url: http://prometheus-server.monitoring.svc.cluster.local:80
       access: proxy
       isDefault: true
+    - name: Loki
+      type: loki
+      url: http://loki.logging.svc.cluster.local:3100
+      access: proxy
     # - name: CloudWatch
     #   type: cloudwatch
     #   access: proxy
@@ -635,6 +639,7 @@ datasources:
     #     defaultRegion: us-east-1
     deleteDatasources:
     - name: Prometheus
+    - name: Loki
 
 ## Configure grafana alerting (can be templated)
 ## ref: http://docs.grafana.org/administration/provisioning/#alerting
@@ -725,18 +730,18 @@ notifiers: {}
 ##
 ## `path` must be /var/lib/grafana/dashboards/<provider_name>
 ##
-dashboardProviders: 
-  dashboardproviders.yaml:
-    apiVersion: 1
-    providers:
-    - name: 'default'
-      orgId: 1
-      folder: ''
-      type: file
-      disableDeletion: false
-      editable: true
-      options:
-        path: /var/lib/grafana/dashboards/default
+dashboardProviders: {}
+  # dashboardproviders.yaml:
+  #   apiVersion: 1
+  #   providers:
+  #   - name: 'default'
+  #     orgId: 1
+  #     folder: ''
+  #     type: file
+  #     disableDeletion: false
+  #     editable: true
+  #     options:
+  #       path: /var/lib/grafana/dashboards/default
 
 ## Configure grafana dashboard to import
 ## NOTE: To use dashboards you must also enable/configure dashboardProviders
@@ -744,8 +749,8 @@ dashboardProviders:
 ##
 ## dashboards per provider, use provider name as key.
 ##
-dashboards:
-  default:
+dashboards: {}
+  # default:
   #   some-dashboard:
   #     json: |
   #       $RAW_JSON
