@@ -1,17 +1,17 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: kube-state-metrics
+  name: argocd
   namespace: argocd
 spec:
   project: default
   source:
-    chart: kube-state-metrics
-    repoURL: registry-1.docker.io/bitnamicharts  # note: the oci:// syntax is not included.
-    targetRevision: HEAD
+    chart: argo-cd
+    repoURL: ghcr.io/argoproj/argo-helm  # note: the oci:// syntax is not included.
+    targetRevision: 7.7.0   # To find the latest chart version run: 'helm search hub argo-cd'
   destination:
     server: 'https://kubernetes.default.svc'
-    namespace: monitoring
+    namespace: argocd
   syncPolicy:
     automated:
       prune: true
