@@ -26,7 +26,7 @@ Update the A record to the IP address of the LB created by nginx ingress control
 
 3. Run the below script to deploy ArgoCD and its resources, Prometheus, Grafana, Loki
 ``` shell
-./scripts/deploy-k8s-res.sh
+./scripts/k8s-addons-steps.sh
 ```
 
 4. Log in to Argo CD and verify if the app is created
