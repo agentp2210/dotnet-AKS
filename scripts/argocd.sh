@@ -1,7 +1,7 @@
 #!/bin/bash
 cd "$(dirname "$0")"
 
-read -p "GITHUB TOKEN: " token
+# read -p "GITHUB TOKEN: " token
 
 # This's only required when creating resources using Argocd CLI
 # if [ -z $1 ]; then
@@ -32,8 +32,10 @@ argocd_password=$(kubectl -n argocd get secret argocd-initial-admin-secret -o js
 echo "Argo CD password: $argocd_password"
 
 # Create ArgoCD resources declaratively
-encoded_token=$(echo $token | base64)
-sed -e 's#\${TOKEN}'"#${encoded_token}#g" ../argocd/secrets/private-repo-creds.yaml | kubectl apply -f -
+# Secrets of creds are only required when the repo is private
+# sed -e 's#\${TOKEN}'"#${token}#g" ../argocd/secrets/argocd-repo-creds.yaml | kubectl apply -f -
+# encoded_token=$(echo $token | base64)
+# sed -e 's#\${TOKEN}'"#${encoded_token}#g" ../argocd/secrets/private-repo-creds.yaml | kubectl apply -f -
 kubectl apply -f ../argocd/repos/dotnet-AKS.yaml
 
 acr_url=$(az acr list --query "[].loginServer" -o tsv)

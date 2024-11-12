@@ -2,7 +2,9 @@
 cd "$(dirname "$0")"
 
 # DEPLOY PROMETHEUS, GRAFANA, LOKI WITH GITOPS
+kubectl create ns monitoring || true
 kubectl apply -f ../argocd/add-ons/
+kubectl apply -f ../argocd/apps/
 
 # DEPLOY WITHOUT GITOPS
 # grafana_host=grafana.anhalan.nl

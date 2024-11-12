@@ -12,6 +12,7 @@ spec:
     helm:
       releaseName: grafana
       values: |
+        adminPassword: P@ssw0rd123456
         ingress:
           enabled: true
           ingressClassName: nginx
@@ -34,9 +35,9 @@ spec:
     server: 'https://kubernetes.default.svc'
     namespace: monitoring
   syncPolicy:
-    # automated:
-    #   prune: true
-    #   selfHeal: true
+    automated:
+      prune: true
+      selfHeal: true
     syncOptions:
       - CreateNamespace=true
   
